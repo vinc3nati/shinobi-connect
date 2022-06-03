@@ -14,6 +14,7 @@ import {
   likePostHandler,
   dislikePostHandler,
   getAllUserPostsHandler,
+  getAllPostByObserverHandler,
 } from "./backend/controllers/PostController";
 import {
   followUserHandler,
@@ -24,6 +25,7 @@ import {
   removePostFromBookmarkHandler,
   unfollowUserHandler,
   editUserHandler,
+  getUserByUserHandler,
 } from "./backend/controllers/UserController";
 
 export function makeServer({ environment = "development" } = {}) {
@@ -44,8 +46,6 @@ export function makeServer({ environment = "development" } = {}) {
       users.forEach((item) =>
         server.create("user", {
           ...item,
-          followers: [],
-          following: [],
           bookmarks: [],
         })
       );
@@ -54,12 +54,14 @@ export function makeServer({ environment = "development" } = {}) {
 
     routes() {
       this.namespace = "api";
+
       // auth routes (public)
       this.post("/auth/signup", signupHandler.bind(this));
       this.post("/auth/login", loginHandler.bind(this));
 
       // post routes (public)
       this.get("/posts", getAllpostsHandler.bind(this));
+      this.get("/posts/:limit/:page", getAllPostByObserverHandler.bind(this));
       this.get("/posts/:postId", getPostHandler.bind(this));
       this.get("/posts/user/:username", getAllUserPostsHandler.bind(this));
 
@@ -72,7 +74,8 @@ export function makeServer({ environment = "development" } = {}) {
 
       // user routes (public)
       this.get("/users", getAllUsersHandler.bind(this));
-      this.get("/users/:userId", getUserHandler.bind(this));
+      this.get("/users/id/:userId", getUserHandler.bind(this));
+      this.get("/users/handler/:userHandler", getUserByUserHandler.bind(this));
 
       // user routes (private)
       this.post("users/edit", editUserHandler.bind(this));
