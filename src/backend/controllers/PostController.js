@@ -15,6 +15,24 @@ export const getAllpostsHandler = function () {
   return new Response(200, {}, { posts: this.db.posts });
 };
 
+export const getAllPostByObserverHandler = function (schema, request) {
+  const { limit, page } = request.params;
+
+  const trendingPosts = [...this.db.posts].sort((a, b) => {
+    return (
+      b?.likes?.likeCount +
+      b?.comments?.length -
+      (a?.likes?.likeCount + a?.comments?.length)
+    );
+  });
+  const pagenatedPost = trendingPosts.slice(
+    0,
+    Number(page) * Number(limit) + Number(limit)
+  );
+
+  return new Response(200, {}, { posts: pagenatedPost });
+};
+
 /**
  * This handler gets post by postId in the db.
  * send GET Request at /api/posts/:postId
@@ -86,6 +104,7 @@ export const createPostHandler = function (schema, request) {
         likedBy: [],
         dislikedBy: [],
       },
+      comments: [],
       username: user.username,
       createdAt: formatDate(),
       updatedAt: formatDate(),
@@ -110,6 +129,7 @@ export const createPostHandler = function (schema, request) {
  * */
 export const editPostHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
+
   try {
     if (!user) {
       return new Response(
@@ -125,16 +145,8 @@ export const editPostHandler = function (schema, request) {
     const postId = request.params.postId;
     const { postData } = JSON.parse(request.requestBody);
     let post = schema.posts.findBy({ _id: postId }).attrs;
-    if (post.username !== user.username) {
-      return new Response(
-        400,
-        {},
-        {
-          errors: ["Cannot edit a Post doesn't belong to the logged in User."],
-        }
-      );
-    }
     post = { ...post, ...postData };
+
     this.db.posts.update({ _id: postId }, post);
     return new Response(201, {}, { posts: this.db.posts });
   } catch (error) {
@@ -215,13 +227,14 @@ export const dislikePostHandler = function (schema, request) {
     }
     const postId = request.params.postId;
     let post = schema.posts.findBy({ _id: postId }).attrs;
-    if (post.likes.likeCount === 0) {
-      return new Response(
-        400,
-        {},
-        { errors: ["Cannot decrement like less than 0."] }
-      );
-    }
+
+    // if (post.likes.likeCount === 0) {
+    //   return new Response(
+    //     400,
+    //     {},
+    //     { errors: ['Cannot decrement like less than 0.'] }
+    //   );
+    // }
     if (post.likes.dislikedBy.some((currUser) => currUser._id === user._id)) {
       return new Response(
         400,
@@ -229,6 +242,7 @@ export const dislikePostHandler = function (schema, request) {
         { errors: ["Cannot dislike a post that is already disliked. "] }
       );
     }
+
     post.likes.likeCount -= 1;
     const updatedLikedBy = post.likes.likedBy.filter(
       (currUser) => currUser._id !== user._id
@@ -254,6 +268,7 @@ export const dislikePostHandler = function (schema, request) {
  * */
 export const deletePostHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
+
   try {
     if (!user) {
       return new Response(
@@ -267,8 +282,10 @@ export const deletePostHandler = function (schema, request) {
       );
     }
     const postId = request.params.postId;
+
     let post = schema.posts.findBy({ _id: postId }).attrs;
-    if (post.username !== user.username) {
+
+    if (post.userId !== user._id) {
       return new Response(
         400,
         {},
