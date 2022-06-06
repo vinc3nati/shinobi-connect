@@ -6,6 +6,8 @@
   
   ::-webkit-scrollbar-track {
     background: transparent;
+    opacity: 0;
+    visibility: hidden;
   }
   
   ::-webkit-scrollbar-thumb {

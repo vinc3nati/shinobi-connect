@@ -3,7 +3,7 @@ import { USERSERVICE } from "../utils/constants";
 
 export const getAllUsers = async () => axios.get(USERSERVICE.GETALLUSER);
 
-export const getUserById = async (userId) =>
+export const getUserById = async ({ userId }) =>
   axios.get(`${USERSERVICE.GETSINGLEUSER}/${userId}`);
 
 export const getUserByHandler = async (userHandler) =>
@@ -28,11 +28,15 @@ export const postBookmark = async ({ postId, token }) =>
   );
 
 export const removeBookmark = async ({ postId, token }) =>
-  axios.post(`${USERSERVICE.REMOVEBOOKMARK}/${postId}`, {
-    headers: {
-      authorization: token,
-    },
-  });
+  await axios.post(
+    `${USERSERVICE.REMOVEBOOKMARK}/${postId}`,
+    {},
+    {
+      headers: {
+        authorization: token,
+      },
+    }
+  );
 
 export const followUser = async ({ userId, token }) =>
   axios.post(

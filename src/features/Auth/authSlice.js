@@ -134,6 +134,7 @@ const authSlice = createSlice({
     builder.addCase(handlePostBookmark.pending, (_) => {});
     builder.addCase(handlePostBookmark.fulfilled, (state, action) => {
       state.isLoading = false;
+      console.log(action.payload);
       const newUser = { ...state.user, bookmarks: action.payload.bookmarks };
       state.user = newUser;
       localStorage.setItem(

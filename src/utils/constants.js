@@ -1,5 +1,6 @@
 /******* Local Storage Constants *******/
 export const AUTHKEY = "SHINOBI_CONNECT_AUTH";
+export const THEMEKEY = "SHINOBI_CONNECT_THEME";
 
 /******Toast Types Constants ******/
 export const TOASTYPE = {
@@ -24,4 +25,19 @@ export const USERSERVICE = {
   REMOVEBOOKMARK: "/api/users/remove-bookmark",
   FOLLOW: "/api/users/follow",
   UNFOLLOW: "/api/users/unfollow",
+};
+
+export const POSTSERVICE = {
+  GETALLPOSTS: "/api/posts",
+  EDITPOST: "/api/posts/edit",
+  LIKEPOST: "/api/posts/like",
+  DISLIKEPOST: "/api/posts/dislike",
+};
+
+export const COMMENTSERVICE = {
+  GETCOMMENTS: "/api/comments",
+  ADDCOMMENTS: "/api/comments/add",
+  EDITCOMMENTS: "/api/comments/edit",
+  DELETECOMMENTS: "/api/comments/delete",
+  UPVOTECOMMENTS: "/api/comments/upvote",
 };

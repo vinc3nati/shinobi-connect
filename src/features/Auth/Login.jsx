@@ -67,8 +67,8 @@ export const Login = ({ title }) => {
   return (
     <>
       {isLoading && <Loader />}
-      <div className="w-full min-h-screen flex text-gray-800">
-        <div className="bg-tertiary-dark w-full md:hidden flex items-center justify-center">
+      <div className="w-full min-h-screen flex text-gray-800 dark:text-tertiary">
+        <div className="bg-tertiary-dark dark:bg-primary-accent w-full md:hidden flex items-center justify-center">
           <img className="w-30" src={authImage} alt="auth logo" />
         </div>
         <div className="flex flex-col w-full">
@@ -87,7 +87,7 @@ export const Login = ({ title }) => {
                 type="email"
                 name="email"
                 placeholder="example@example.com"
-                className=" border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-primary-light rounded"
+                className=" border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 text-gray-600 focus:ring-primary-light rounded"
                 value={login.email}
                 onChange={(e) => {
                   handleChange(e);
@@ -112,7 +112,7 @@ export const Login = ({ title }) => {
                 type="password"
                 name="password"
                 placeholder="Password"
-                className=" border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-primary-light rounded"
+                className=" border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none text-gray-600 focus:ring-1 focus:ring-primary-light rounded"
                 value={login.password}
                 onChange={(e) => {
                   handleChange(e);
