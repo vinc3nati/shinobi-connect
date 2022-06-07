@@ -27,7 +27,7 @@ module.exports = {
       "warning-light": "#e6a647",
       info: "#7cc6fe",
       "txt-color-hover": "#94a3b8",
-      "background-dim": "rgb(0,0,0,0.5)",
+      "background-faint-dark": "rgb(0,0,0,0.5)",
       "dark-txt-color": "#f4faff",
       "dark-txt-color-secondary": "#767B9F",
       "dark-background": "#1c2440",

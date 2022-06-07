@@ -70,7 +70,7 @@ export const Signup = ({ title }) => {
   return (
     <>
       {isLoading && <Loader />}
-      <div className="w-full min-h-screen flex text-gray-800">
+      <div className="w-full min-h-screen flex text-gray-800 dark:text-tertiary">
         <div className="flex flex-col w-full">
           <div className="py-6 flex items-center justify-center">
             <img className="w-25 cursor-pointer" src={logo} alt="hero" />
@@ -89,7 +89,7 @@ export const Signup = ({ title }) => {
                     type="text"
                     name="firstName"
                     placeholder="First Name"
-                    className=" border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-primary-light rounded"
+                    className=" border w-full h-5 px-3 py-5 mt-2 text-gray-800 hover:outline-none focus:outline-none focus:ring-1 focus:ring-primary-light rounded"
                     value={signup.firstName}
                     onChange={(e) => {
                       handleChange(e);
@@ -109,7 +109,7 @@ export const Signup = ({ title }) => {
                     type="text"
                     name="lastName"
                     placeholder="Last Name"
-                    className=" border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-primary-light rounded"
+                    className=" border w-full h-5 px-3 py-5 mt-2 text-gray-800 hover:outline-none focus:outline-none focus:ring-1 focus:ring-primary-light rounded"
                     value={signup.lastName}
                     onChange={(e) => {
                       handleChange(e);
@@ -129,7 +129,7 @@ export const Signup = ({ title }) => {
                 type="email"
                 name="email"
                 placeholder="example@example.com"
-                className=" border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-primary-light rounded"
+                className=" border w-full h-5 px-3 py-5 mt-2 text-gray-800 hover:outline-none focus:outline-none focus:ring-1 focus:ring-primary-light rounded"
                 value={signup.email}
                 onChange={(e) => {
                   handleChange(e);
@@ -154,7 +154,7 @@ export const Signup = ({ title }) => {
                 type="password"
                 name="password"
                 placeholder="Password"
-                className=" border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-1 focus:ring-primary-light rounded"
+                className="border w-full h-5 px-3 py-5 mt-2 text-gray-800 hover:outline-none focus:outline-none focus:ring-1 focus:ring-primary-light rounded"
                 value={signup.password}
                 onChange={(e) => {
                   handleChange(e);
@@ -192,7 +192,7 @@ export const Signup = ({ title }) => {
             </div>
           </div>
         </div>
-        <div className="bg-tertiary-dark w-full md:hidden flex items-center justify-center">
+        <div className="bg-tertiary-dark dark:bg-primary-accent w-full md:hidden flex items-center justify-center">
           <img className="w-30" src={authImage} alt="auth logo" />
         </div>
       </div>
