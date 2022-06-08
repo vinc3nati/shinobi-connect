@@ -10,6 +10,7 @@ import { Feed } from "./features/Feed/Feed";
 import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute";
 import { PostModal } from "./features/PostModal/PostModal";
 import { IndividualPost } from "./features/IndividualPost/IndividualPost";
+import { Profile } from "./features/Profile/Profile";
 
 function App() {
   const { theme } = useSelector((store) => store.theme);
@@ -37,6 +38,10 @@ function App() {
             <Route
               path="post/:postId"
               element={<IndividualPost title="post" />}
+            />
+            <Route
+              path="profile/:userHandler"
+              element={<Profile title="profile" />}
             />
           </Route>
         </Routes>

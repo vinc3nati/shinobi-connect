@@ -104,7 +104,7 @@ export const Feed = ({ title }) => {
                 <img
                   src={user?.pic}
                   alt="user profile"
-                  className="w-12 h-10 object-cover rounded-full"
+                  className="w-10 h-10 object-cover rounded-full"
                 />
                 <div className="flex justify-between items-center w-full">
                   <p className="grow text-dark-txt-color-secondary sm:text-sm">

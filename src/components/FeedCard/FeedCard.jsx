@@ -9,7 +9,7 @@ import {
   BsBookmarkFill,
 } from "react-icons/bs";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { AiOutlineLike, AiFillLike } from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 import { getUserById } from "../../services/user.service";
 import { TOASTYPE } from "../../utils/constants";
@@ -79,7 +79,7 @@ export const FeedCard = ({ postData, isIndividualPostPage }) => {
               {user._id === currUser._id && !isIndividualPostPage && (
                 <div className="relative">
                   <BsThreeDotsVertical
-                    className="text-xl cursor-pointer"
+                    className="text-xl text-dark-txt-color-secondary cursor-pointer"
                     onClick={() => setShowMenu((prev) => !prev)}
                   />
                   {showMenu && (
@@ -125,9 +125,9 @@ export const FeedCard = ({ postData, isIndividualPostPage }) => {
               />
             )}
           </div>
-          <div className="flex gap-4 sm:gap-2 grow py-1 items-center justify-evenly font-normal text-dark-txt-color-secondary">
+          <div className="flex gap-4 sm:gap-2 grow py-1 items-center justify-around font-normal text-dark-txt-color-secondary">
             <div
-              className="flex items-center gap-1 cursor-pointer"
+              className={`flex items-center gap-1 cursor-pointer transition`}
               onClick={() =>
                 isLiked
                   ? dispatch(handleDislikePost({ postId: _id, token }))
@@ -135,11 +135,11 @@ export const FeedCard = ({ postData, isIndividualPostPage }) => {
               }
             >
               {isLiked ? (
-                <AiFillLike className="text-primary" />
+                <AiFillHeart className="text-secondary" />
               ) : (
-                <AiOutlineLike />
+                <AiOutlineHeart />
               )}
-              {isLiked && <span>{likes.likedBy.length}</span>}
+              <span>{likes.likedBy.length}</span>
             </div>
             <div
               className="flex items-center gap-1 cursor-pointer"
@@ -159,7 +159,7 @@ export const FeedCard = ({ postData, isIndividualPostPage }) => {
               }
             >
               {isBookMarked ? (
-                <BsBookmarkFill className="text-primary" />
+                <BsBookmarkFill className="text-secondary" />
               ) : (
                 <BsBookmark />
               )}

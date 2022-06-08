@@ -6,7 +6,7 @@ export const getAllUsers = async () => axios.get(USERSERVICE.GETALLUSER);
 export const getUserById = async ({ userId }) =>
   axios.get(`${USERSERVICE.GETSINGLEUSER}/${userId}`);
 
-export const getUserByHandler = async (userHandler) =>
+export const getUserByHandler = async ({ userHandler }) =>
   axios.get(`${USERSERVICE.GETUSERHANDLER}/${userHandler}`);
 
 export const getBookmarks = async ({ token }) =>

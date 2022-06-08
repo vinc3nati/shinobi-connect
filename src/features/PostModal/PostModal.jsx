@@ -107,7 +107,7 @@ export const PostModal = () => {
                 <img
                   src={user?.pic}
                   alt="profile img"
-                  className="h-16 w-20 rounded-full object-cover"
+                  className="h-16 w-16 rounded-full object-cover"
                 />
                 <textarea
                   cols="40"

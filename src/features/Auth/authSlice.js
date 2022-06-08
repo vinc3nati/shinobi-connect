@@ -131,10 +131,25 @@ const authSlice = createSlice({
       ToastMessage(action.payload, TOASTYPE.Error);
     });
 
+    builder.addCase(handleUserUpdate.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(handleUserUpdate.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.user = action.payload.user;
+      localStorage.setItem(
+        AUTHKEY,
+        JSON.stringify({ token: state.token, user: action.payload.user })
+      );
+    });
+    builder.addCase(handleUserUpdate.rejected, (state, action) => {
+      state.isLoading = false;
+      ToastMessage(action.payload, TOASTYPE.Error);
+    });
+
     builder.addCase(handlePostBookmark.pending, (_) => {});
     builder.addCase(handlePostBookmark.fulfilled, (state, action) => {
       state.isLoading = false;
-      console.log(action.payload);
       const newUser = { ...state.user, bookmarks: action.payload.bookmarks };
       state.user = newUser;
       localStorage.setItem(
