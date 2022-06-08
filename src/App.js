@@ -11,6 +11,7 @@ import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute";
 import { PostModal } from "./features/PostModal/PostModal";
 import { IndividualPost } from "./features/IndividualPost/IndividualPost";
 import { Profile } from "./features/Profile/Profile";
+import { Error } from "./components/Error/Error";
 
 function App() {
   const { theme } = useSelector((store) => store.theme);
@@ -44,6 +45,8 @@ function App() {
               element={<Profile title="profile" />}
             />
           </Route>
+          <Route path="*" element={<Error title="error" />} />
+          <Route path="/error" element={<Error title="error" />} />
         </Routes>
         <PostModal />
       </div>

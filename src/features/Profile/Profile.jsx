@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { MdOutlineFeed } from "react-icons/md";
 import { AiOutlineHistory } from "react-icons/ai";
 import { BsBookmark } from "react-icons/bs";
