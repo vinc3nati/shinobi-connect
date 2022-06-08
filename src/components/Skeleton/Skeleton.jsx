@@ -6,7 +6,7 @@ export const Skeleton = () => {
   return (
     <>
       <Navbar />
-      <main className="p-2 mt-4">
+      <main className="p-2 mt-4 pb-4 sm:pb-2">
         <Outlet />
       </main>
     </>
