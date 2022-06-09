@@ -49,7 +49,8 @@
 
 ## Demo
 
-![ezgif com-gif-maker](https://user-images.githubusercontent.com/48097586/169587969-3c3164c5-8a01-40dd-82d7-94033dc7610f.gif)
+![shinobi-connect-demo](https://user-images.githubusercontent.com/48097586/172881332-fc5bec86-3ed5-4250-8f55-69461a5a01b3.gif)
+
 
 <!-- Features -->
 
