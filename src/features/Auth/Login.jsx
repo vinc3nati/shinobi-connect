@@ -22,8 +22,8 @@ export const Login = ({ title }) => {
   });
 
   const testLogin = {
-    email: "vijaykamle@gmail.com",
-    password: "1234asdf",
+    email: "vinit@ceo.com",
+    password: "1234abcd",
   };
 
   const navigate = useNavigate();
