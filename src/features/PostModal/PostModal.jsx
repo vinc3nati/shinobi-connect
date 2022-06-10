@@ -5,8 +5,9 @@ import { BsImage, BsEmojiSunglasses } from "react-icons/bs";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 import { closePostModal } from "./postModalSlice";
 import { handleAddPost, handleEditPost } from "../Feed";
+import { useNavigate } from "react-router-dom";
 
-export const PostModal = () => {
+export const PostModal = ({ postQueryBody }) => {
   const { isOpen, modalData } = useSelector((store) => store.postModal);
   const { user, token } = useSelector((store) => store.auth);
   const [postInput, setPostInput] = useState({
@@ -20,6 +21,7 @@ export const PostModal = () => {
   const emojiRef = useRef();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const reset = () => {
     setPostInput((prev) => ({
@@ -27,6 +29,9 @@ export const PostModal = () => {
       pic: "",
     }));
     dispatch(closePostModal());
+    if (postQueryBody) {
+      navigate("/", { replace: true });
+    }
   };
 
   useEffect(() => {
@@ -35,8 +40,10 @@ export const PostModal = () => {
         content: modalData.content,
         pic: modalData.pic,
       });
+    } else if (postQueryBody) {
+      setPostInput((prev) => ({ ...prev, content: postQueryBody }));
     }
-  }, [modalData]);
+  }, [modalData, postQueryBody]);
 
   useOnClickOutside(modalRef, () => {
     reset();

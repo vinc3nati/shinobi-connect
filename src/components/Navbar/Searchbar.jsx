@@ -32,7 +32,7 @@ export const Searchbar = ({ showSearchbar, setShowSearchbar }) => {
 
   return (
     <div
-      className={`absolute top-0 left-0 w-full h-screen flex justify-center bg-background-faint-dark overflow-x-hidden overflow-y-hidden transition-all duration-500 ${
+      className={`absolute top-0 left-0 w-full h-screen flex justify-center bg-background-faint-dark overflow-x-hidden overflow-y-hidden transition-all duration-300 ${
         showSearchbar ? "translate-y-0" : "-translate-y-full"
       }`}
     >

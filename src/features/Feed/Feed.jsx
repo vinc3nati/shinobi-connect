@@ -12,6 +12,7 @@ import "./feed.css";
 import { SuggestedUser } from "../../components/SuggestedUser/SuggestedUser";
 import { SuggestedUserHorizontal } from "../../components/SuggestedUserHorizontal/SuggestedUserHorizontal";
 import { FeedCard } from "../../components/FeedCard/FeedCard";
+import { PostModal } from "../PostModal/PostModal";
 
 const LIMIT = 2;
 
@@ -32,7 +33,10 @@ export const Feed = ({ title }) => {
   const loader = useRef(null);
 
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
+
+  const postQuery = new URLSearchParams(search);
+  const postQueryBody = postQuery.get("content");
 
   const suggestedUserData = allUsers.filter(
     (item) =>
@@ -56,6 +60,9 @@ export const Feed = ({ title }) => {
     );
     if (elementRef) {
       intersectionObserver.observe(elementRef);
+    }
+    if (postQueryBody) {
+      dispatch(openPostModal());
     }
   }, []);
 
@@ -92,6 +99,7 @@ export const Feed = ({ title }) => {
 
   return (
     <>
+      <PostModal postQueryBody={postQueryBody} />
       {(isLoading || showPostLoader) && <Loader />}
       <div className="flex justify-center gap-5 items-start">
         <div className="flex flex-col gap-4 w-2/5 md:w-4/5 sm:w-full">

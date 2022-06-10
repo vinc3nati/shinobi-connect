@@ -48,7 +48,6 @@ function App() {
           <Route path="*" element={<Error title="error" />} />
           <Route path="/error" element={<Error title="error" />} />
         </Routes>
-        <PostModal />
       </div>
     </div>
   );
