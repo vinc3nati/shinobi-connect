@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { MdOutlineFeed } from "react-icons/md";
+import { MdOutlineFeed, MdSportsSoccer } from "react-icons/md";
 import { AiOutlineHistory } from "react-icons/ai";
 import { BsBookmark } from "react-icons/bs";
 import { ToastMessage } from "../../components";
@@ -24,6 +24,7 @@ export const Profile = ({ title }) => {
   const { userHandler } = useParams();
   const { user: currUser, token } = useSelector((store) => store.auth);
   const { allPosts, isLoading } = useSelector((store) => store.posts);
+  const { allUsers } = useSelector((store) => store.users);
 
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [user, setUser] = useState(null);
@@ -64,6 +65,7 @@ export const Profile = ({ title }) => {
       try {
         setFalseLoading(true);
         const response = await getUserByHandler({ userHandler });
+        console.log(response.data.user);
         setUser(response.data.user);
         setIsCurrUser(currUser._id === response.data.user._id);
       } catch (err) {
@@ -72,7 +74,7 @@ export const Profile = ({ title }) => {
         setFalseLoading(false);
       }
     })();
-  }, [userHandler]);
+  }, [userHandler, allUsers, currUser._id]);
 
   useEffect(() => {
     setFalseLoading(true);
@@ -108,89 +110,95 @@ export const Profile = ({ title }) => {
                   alt={`${item?.firstName} profile`}
                   className="w-14 h-14 rounded-full object-cover"
                 />
-                <p className="font-medium dark:text-dark-txt-color-secondary text-lg text-grey-dark-2">
-                  {item?.firstName} {item?.lastName}
-                </p>
+                <div className="flex flex-col">
+                  <p className="font-medium dark:text-dark-txt-color-secondary text-lg text-grey-dark-2">
+                    {item?.firstName} {item?.lastName}
+                  </p>
+                  <p className="dark:text-dark-txt-color-secondary text-grey-dark-2">
+                    @{item?.userHandler}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       )}
+
       <div className="flex justify-center">
         <div className="flex flex-col w-2/5  xl:3/5 lg:w-4/5 md:4/5 sm:w-full gap-4 transition-colors">
-          <div className="flex justify-evenly  bg-nav-background dark:bg-dark-background-secondary dark:text-dark-txt-color gap-4 rounded p-5">
-            <img
-              src={isCurrUser ? currUser?.pic : user?.pic}
-              alt={`${
-                isCurrUser ? currUser?.firstName : user?.firstName
-              } profile`}
-              className="h-48 w-2/6 object-cover md:h-40 rounded"
-            />
-            <div className="flex flex-col w-4/6  gap-3 gap-y-2 sm:gap-2">
-              <div className="flex w-full items-center justify-between gap-2">
-                <p className="text-xl sm:text-base text-center">
+          <div className="flex flex-col bg-nav-background dark:bg-dark-background-secondary dark:text-dark-txt-color gap-4 rounded">
+            <div className="flex justify-center relative transition-all bg-gradient-to-br from-blue-600 to-gray-400 dark:focus:ring-blue-800 font-medium rounded-t h-40">
+              <img
+                src={isCurrUser ? currUser?.pic : user?.pic}
+                alt={`${
+                  isCurrUser ? currUser?.firstName : user?.firstName
+                } profile`}
+                className="absolute -bottom-16 h-40 w-40 rounded-full border-2 border-tertiary dark:border-dark-background-secondary"
+              />
+            </div>
+            <div className="flex w-full items-center justify-between gap-1 px-3">
+              <div className="flex flex-col">
+                <p className="text-xl font-semibold sm:text-base text-center">
                   {user?.firstName} {user?.lastName}
                 </p>
-                {isCurrUser && (
-                  <button
-                    className="py-1 px-2 ring-1 rounded hover:bg-secondary-background dark:hover:bg-primary-accent text-sm sm:text-xs"
-                    onClick={() => setShowProfileModal(true)}
-                  >
-                    Edit Profile
-                  </button>
-                )}
+                <p className="text-sm">@{user?.userHandler}</p>
               </div>
-              <div className="flex gap-1 text-grey-dark-2 dark:text-txt-color-hover text-sm sm:text-xs font-semibold">
-                <span>@{user?.userHandler}</span>
-              </div>
-              {(currUser?.bio || user?.bio) && (
-                <div className="flex gap-2 text-sm sm:text-xs">
-                  <span>{isCurrUser ? currUser?.bio : user?.bio}</span>
-                </div>
+              {isCurrUser && (
+                <button
+                  className="py-1 px-2 ring-1 rounded hover:bg-secondary-background dark:hover:bg-primary-accent text-sm sm:text-xs"
+                  onClick={() => setShowProfileModal(true)}
+                >
+                  Edit Profile
+                </button>
               )}
-              {(user?.link || currUser?.link) && (
-                <div className="flex gap-2 text-sm sm:text-xs font-semibold">
-                  <a
-                    className="text-primary transition hover:underline active:underline"
-                    href={user?.link}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    {isCurrUser ? currUser?.link : user?.link}
-                  </a>
-                </div>
-              )}
-              <div className="flex gap-2 justify-between text-base sm:text-sm">
-                <p
-                  className="cursor-pointer"
-                  onClick={() => setSubNav("posts")}
-                >
-                  {allPosts.filter((item) => item.userId === user?._id).length}{" "}
-                  Posts
-                </p>
-                <p
-                  className="cursor-pointer"
-                  onClick={() => setFollowModal(user?.following || [])}
-                >
-                  {user?.following?.length || 0} Following
-                </p>
-                <p
-                  className="cursor-pointer"
-                  onClick={() => setFollowModal(user?.followers || [])}
-                >
-                  {user?.followers?.length} Followers
-                </p>
-              </div>
+            </div>
+            {(currUser?.bio || user?.bio) && (
+              <p className="text-center w-full font-semibold text-lg sm:text-md">
+                {isCurrUser ? currUser?.bio : user?.bio}
+              </p>
+            )}
+            {(user?.link || currUser?.link) && (
+              <a
+                className="flex gap-1 items-center justify-center font-semibold text-primary transition hover:underline active:underline"
+                href={user?.link}
+                rel="noreferrer"
+                target="_blank"
+              >
+                <MdSportsSoccer />
+                Website
+              </a>
+            )}
+            <div className="flex gap-2 justify-center text-base sm:text-sm px-3">
+              <p className="cursor-pointer" onClick={() => setSubNav("posts")}>
+                {allPosts.filter((item) => item.userId === user?._id).length}{" "}
+                Posts
+              </p>
+              |
+              <p
+                className="cursor-pointer"
+                onClick={() => setFollowModal(user?.following || [])}
+              >
+                {user?.following?.length || 0} Following
+              </p>
+              |
+              <p
+                className="cursor-pointer"
+                onClick={() => setFollowModal(user?.followers || [])}
+              >
+                {user?.followers?.length} Followers
+              </p>
+            </div>
+            <div className="text-center mb-4">
               {isCurrUser || user === null ? (
                 <button
-                  className="text-error text-base sm:text-xs border border-error py-1 px-3 rounded transition active:bg-error active:text-white hover:bg-red-100 dark:hover:bg-red-400 dark:hover:text-white"
+                  className="text-error w-32 text-base sm:text-xs border border-error py-1 px-3 rounded transition active:bg-error active:text-white hover:bg-red-100 dark:hover:bg-red-400 dark:hover:text-white"
                   onClick={() => dispatch(handleLogout())}
                 >
                   Logout
                 </button>
               ) : currUser.following?.some((item) => item._id === user?._id) ? (
                 <button
-                  className="py-1 px-2 ring-1 text-base sm:text-xs rounded hover:bg-secondary-background py-1 px-3 dark:hover:bg-primary-accent"
+                  className="py-1 px-2 w-32 ring-1 text-base sm:text-xs rounded hover:bg-secondary-background py-1 px-3 dark:hover:bg-primary-accent"
                   onClick={() => {
                     dispatch(
                       handleUnFollowUser({
@@ -206,7 +214,7 @@ export const Profile = ({ title }) => {
                 </button>
               ) : (
                 <button
-                  className="py-1 px-2 ring-1 text-base sm:text-xs rounded hover:bg-secondary-background py-1 px-3 dark:hover:bg-primary-accent"
+                  className="py-1 px-2 w-32 ring-1 text-base sm:text-xs rounded hover:bg-secondary-background py-1 px-3 dark:hover:bg-primary-accent"
                   onClick={() => {
                     dispatch(
                       handleFollowUser({

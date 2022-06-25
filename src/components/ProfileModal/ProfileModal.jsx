@@ -70,20 +70,20 @@ export const ProfileModal = ({ setShowProfileModal }) => {
           </div>
 
           <div className="flex justify-between gap-4">
-            <p className="w-16 text-xl text-dark-txt-color-secondary font-semibold">
+            <p className="text-xl text-dark-txt-color-secondary font-semibold">
               Bio
             </p>
             <textarea
               name="bio"
               cols="40"
               row="5"
-              className="px-2 focus:outline-none resize-none dark:bg-dark-background dark:text-dark-txt-color"
+              className="px-2 focus:outline-none resize-none dark:bg-dark-background-secondary dark:text-dark-txt-color"
               value={userData.bio}
               onChange={handleChange}
             />
           </div>
           <div className="flex gap-4">
-            <p className="w-16 text-lg text-dark-txt-color-secondary font-semibold">
+            <p className="text-lg text-dark-txt-color-secondary font-semibold">
               Link
             </p>
             <input
@@ -96,7 +96,7 @@ export const ProfileModal = ({ setShowProfileModal }) => {
         </div>
         <div className="flex justify-end">
           <button
-            className="rounded px-2 py-1 bg-blue-500 text-white font-bold hover:bg-blue-400"
+            className="rounded px-2 py-1 bg-primary text-white hover:bg-blue-400"
             onClick={() => {
               dispatch(
                 handleUserUpdate({ userData: { ...user, ...userData }, token })

@@ -39,7 +39,7 @@ export const removeBookmark = async ({ postId, token }) =>
   );
 
 export const followUser = async ({ userId, token }) =>
-  axios.post(
+  await axios.post(
     `${USERSERVICE.FOLLOW}/${userId}`,
     {},
     {

@@ -7,8 +7,10 @@ import { closePostModal } from "./postModalSlice";
 import { handleAddPost, handleEditPost } from "../Feed";
 import { useNavigate } from "react-router-dom";
 
-export const PostModal = ({ postQueryBody }) => {
-  const { isOpen, modalData } = useSelector((store) => store.postModal);
+export const PostModal = () => {
+  const { isOpen, modalData, postQueryBody } = useSelector(
+    (store) => store.postModal
+  );
   const { user, token } = useSelector((store) => store.auth);
   const [postInput, setPostInput] = useState({
     content: "",

@@ -10,6 +10,7 @@ import {
 } from "../../features/Theme/ThemeSlice";
 import { Account } from "./Account";
 import { Searchbar } from "./Searchbar";
+import { ThemeSwitcher } from "../ThemeSwitcher/ThemeSwitcher";
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -55,7 +56,8 @@ export const Navbar = () => {
           >
             <BiHomeAlt />
           </li>
-          {theme === "dark" ? (
+          <ThemeSwitcher />
+          {/* {theme === "dark" ? (
             <li
               className="cursor-pointer flex items-center"
               onClick={() => dispatch(handleLightTheme())}
@@ -71,7 +73,7 @@ export const Navbar = () => {
             >
               <BiSun />
             </li>
-          )}
+          )} */}
           <Account
             dispatch={dispatch}
             setShowProfileDropdown={setShowProfileDropdown}

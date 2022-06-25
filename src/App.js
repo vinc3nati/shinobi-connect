@@ -22,6 +22,7 @@ function App() {
         className="min-h-screen  bg-background dark:bg-dark-background"
       >
         <ToastContainer style={{ fontWeight: "500", fontSize: "1rem" }} />
+        <PostModal />
         <Routes>
           <Route path="/login" element={<Login title="Login" />} />
           <Route path="/signup" element={<Signup title="Sign Up" />} />

@@ -93,7 +93,9 @@ export const FeedCard = ({ postData, isIndividualPostPage }) => {
                       <button
                         type="button"
                         className="relative flex gap-2 items-center w-full px-4 py-2 text-sm font-medium rounded hover:text-blue-700 focus:z-10 focus:text-blue-700"
-                        onClick={() => dispatch(openPostModal(postData))}
+                        onClick={() =>
+                          dispatch(openPostModal({ modalData: postData }))
+                        }
                       >
                         <FaEdit />
                         Edit

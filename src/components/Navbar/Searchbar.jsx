@@ -38,20 +38,22 @@ export const Searchbar = ({ showSearchbar, setShowSearchbar }) => {
     >
       <IoIosCloseCircleOutline
         onClick={() => resetSearchbar()}
-        className="cursor-pointer absolute right-2 sm:mt-24 mt-6 text-3xl text-tertiary"
+        className="cursor-pointer absolute right-2 mt-6 text-3xl text-tertiary-dark"
       />
       <div
+        className="w-full h-fit flex flex-col items-center gap-5 text-dark-txt-color-secondary"
         ref={searchbarRef}
-        className="sm:w-9/12 w-2/5 mt-6 sm:mt-24 flex flex-col items-center gap-5 text-dark-txt-color-secondary"
       >
-        <input
-          value={searchText}
-          placeholder="Search users"
-          onChange={(e) => setSearchText(e.target.value)}
-          type="search"
-          className="w-full bg-background dark:bg-dark-background rounded focus:outline-none px-4"
-        />
-        <div className="w-full flex flex-col gap-4 max-h-96 z-50 overflow-y-auto rounded bg-background dark:bg-dark-background">
+        <div className="w-full py-5 bg-nav-background dark:bg-dark-background-secondary flex justify-center">
+          <input
+            value={searchText}
+            placeholder="Search users"
+            onChange={(e) => setSearchText(e.target.value)}
+            type="search"
+            className="sm:w-9/12 w-2/5 bg-background dark:bg-dark-background rounded focus:outline-none border border-txt-color-hover focus:border-primary-light  px-4"
+          />
+        </div>
+        <div className="sm:w-9/12 w-2/5 flex flex-col gap-4 max-h-96 z-50 overflow-y-auto rounded bg-background dark:bg-dark-background">
           {searchText !== "" && searchedData.length === 0 ? (
             <p className="text-center text-lg m-1 font-medium">
               No users found!
@@ -71,9 +73,12 @@ export const Searchbar = ({ showSearchbar, setShowSearchbar }) => {
                   alt="user profile"
                   className="w-14 h-14 object-cover rounded-full"
                 />
-                <p className="font-medium text-lg">
-                  {user?.firstName} {user?.lastName}
-                </p>
+                <div className="flex flex-col">
+                  <span className="font-medium text-lg">
+                    {user?.firstName} {user?.lastName}
+                  </span>
+                  <span>@{user?.userHandler}</span>
+                </div>
               </div>
             ))
           )}
