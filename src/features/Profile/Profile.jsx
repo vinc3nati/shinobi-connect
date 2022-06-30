@@ -65,7 +65,6 @@ export const Profile = ({ title }) => {
       try {
         setFalseLoading(true);
         const response = await getUserByHandler({ userHandler });
-        console.log(response.data.user);
         setUser(response.data.user);
         setIsCurrUser(currUser._id === response.data.user._id);
       } catch (err) {

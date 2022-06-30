@@ -47,3 +47,14 @@ export const upvoteComment = async ({ postId, commentId, token }) =>
       },
     }
   );
+
+export const downvoteComment = async ({ postId, commentId, token }) =>
+  await axios.post(
+    `${COMMENTSERVICE.DOWNVOTECOMMENTS}/${postId}/${commentId}`,
+    {},
+    {
+      headers: {
+        authorization: token,
+      },
+    }
+  );

@@ -14,7 +14,7 @@ import { IoSend } from "react-icons/io5";
 import Linkify from "react-linkify";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 import { getUserById } from "../../services/user.service";
-import { TOASTYPE } from "../../utils/constants";
+import { SORTCOMMENTS, TOASTYPE } from "../../utils/constants";
 import { ToastMessage } from "../ToastMessage/ToastMessage";
 import { openPostModal } from "../../features/PostModal/postModalSlice";
 import {
@@ -34,6 +34,7 @@ export const FeedCard = ({ postData, isIndividualPostPage }) => {
   const [user, setUser] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const [commentInput, setCommentInput] = useState("");
+  const [sortComments, setSortComments] = useState("");
 
   const menuRef = useRef();
 
@@ -43,6 +44,11 @@ export const FeedCard = ({ postData, isIndividualPostPage }) => {
   const isLiked = likes.likedBy.some((item) => item._id === currUser._id);
   const isBookMarked = currUser.bookmarks.some((item) => item === _id);
 
+  const sortedComments = [...comments].sort((a, b) =>
+    sortComments === SORTCOMMENTS.MOST_RELEVANT
+      ? b.votes.upvotedBy.length - a.votes.upvotedBy.length
+      : b.votes.downvotedBy.length - a.votes.downvotedBy.length
+  );
   useOnClickOutside(menuRef, () => setShowMenu(false));
 
   useEffect(() => {
@@ -187,42 +193,61 @@ export const FeedCard = ({ postData, isIndividualPostPage }) => {
             </div>
           </div>
           {isIndividualPostPage && (
-            <div className="flex gap-3 flex-col border-t border-dark-txt-color-secondary pt-6">
-              {comments.map((cmt) => (
-                <CommentCard key={cmt._id} comment={cmt} />
-              ))}
-              <div className="flex gap-1 w-full shadow-sm py-1 px-2 rounded border bg-tertiary dark:bg-dark-background-secondary dark:border-dark-txt-color-secondary">
-                <input
-                  value={commentInput}
-                  placeholder="Enter your comment"
-                  className="w-full bg-transparent dark:text-dark-txt-color-secondary outline-none border-0"
-                  type="text"
-                  onChange={(e) => setCommentInput(e.target.value)}
-                />
-                <button
-                  onClick={() => {
-                    if (commentInput === "") {
-                      ToastMessage(
-                        "Please write something in the comment",
-                        TOASTYPE.Info
-                      );
-                      return;
-                    }
-                    dispatch(
-                      handleAddComment({
-                        postId: _id,
-                        commentData: { content: commentInput, postId: _id },
-                        token,
-                      })
-                    );
-                    setCommentInput("");
+            <>
+              <div className="flex gap-3 flex-col border-t border-dark-txt-color-secondary pt-6">
+                <select
+                  className="self-end px-2 py-1 text-grey-dark-3 dark:text-tertiary-dark outline-none outline-0 rounded bg-secondary-background dark:bg-dark-background border-0"
+                  onChange={(e) => {
+                    setSortComments(e.target.value);
                   }}
-                  className="text-white bg-gradient-to-r from-blue-600 to-gray-400 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800 font-medium rounded text-sm px-4 py-2 text-center"
                 >
-                  <IoSend />
-                </button>
+                  <option disabled value="" selected>
+                    Sort Comments
+                  </option>
+                  {Object.keys(SORTCOMMENTS).map((sortType) => (
+                    <option key={sortType} value={SORTCOMMENTS[sortType]}>
+                      {SORTCOMMENTS[sortType]}
+                    </option>
+                  ))}
+                </select>
+                <div className="h-52 overflow-y-auto">
+                  {sortedComments.map((cmt) => (
+                    <CommentCard key={cmt._id} comment={cmt} />
+                  ))}
+                </div>
+                <div className="flex gap-1 w-full shadow-sm py-1 px-2 rounded border bg-tertiary dark:bg-dark-background-secondary dark:border-dark-txt-color-secondary">
+                  <input
+                    value={commentInput}
+                    placeholder="Enter your comment"
+                    className="w-full bg-transparent dark:text-dark-txt-color-secondary outline-none border-0"
+                    type="text"
+                    onChange={(e) => setCommentInput(e.target.value)}
+                  />
+                  <button
+                    onClick={() => {
+                      if (commentInput === "") {
+                        ToastMessage(
+                          "Please write something in the comment",
+                          TOASTYPE.Info
+                        );
+                        return;
+                      }
+                      dispatch(
+                        handleAddComment({
+                          postId: _id,
+                          commentData: { content: commentInput, postId: _id },
+                          token,
+                        })
+                      );
+                      setCommentInput("");
+                    }}
+                    className="text-white bg-gradient-to-r from-blue-600 to-gray-400 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800 font-medium rounded text-sm px-4 py-2 text-center"
+                  >
+                    <IoSend />
+                  </button>
+                </div>
               </div>
-            </div>
+            </>
           )}
         </div>
       )}

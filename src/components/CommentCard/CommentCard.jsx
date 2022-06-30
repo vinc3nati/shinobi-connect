@@ -1,12 +1,19 @@
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import {
+  BsThreeDotsVertical,
+  BsArrowUpSquare,
+  BsArrowUpSquareFill,
+  BsArrowDownSquare,
+  BsArrowDownSquareFill,
+} from "react-icons/bs";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 import {
   handleDeleteComment,
+  handleDownvoteComment,
   handleEditComment,
   handleLikeComment,
 } from "../../features/Feed/postSlice";
@@ -30,8 +37,10 @@ export const CommentCard = ({ comment }) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const isLiked = votes.upvotedBy.some((vtUser) => vtUser._id === currUser._id);
+  const isDisliked = votes.downvotedBy.some(
+    (vtUser) => vtUser._id === currUser._id
+  );
 
   useOnClickOutside(commentRef, () => setShowMenu(false));
   return (
@@ -139,14 +148,27 @@ export const CommentCard = ({ comment }) => {
           )}
           <div className="flex gap-3">
             <div
-              className="flex gap-1 items-center text-primary"
+              className="flex gap-1 items-center text-primary cursor-pointer"
               onClick={() =>
                 dispatch(handleLikeComment({ postId, commentId: _id, token }))
               }
             >
-              {isLiked ? <AiFillLike /> : <AiOutlineLike />}
+              {isLiked ? <BsArrowUpSquareFill /> : <BsArrowUpSquare />}
               {votes.upvotedBy.length > 0 && (
                 <span>{votes.upvotedBy.length}</span>
+              )}
+            </div>
+            <div
+              className="flex gap-1 items-center text-primary cursor-pointer"
+              onClick={() =>
+                dispatch(
+                  handleDownvoteComment({ postId, commentId: _id, token })
+                )
+              }
+            >
+              {isDisliked ? <BsArrowDownSquareFill /> : <BsArrowDownSquare />}
+              {votes.downvotedBy.length > 0 && (
+                <span>{votes.downvotedBy.length}</span>
               )}
             </div>
             <p

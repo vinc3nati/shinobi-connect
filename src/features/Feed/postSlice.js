@@ -3,6 +3,7 @@ import { ToastMessage } from "../../components";
 import {
   addCommentsByPostId,
   deleteComment,
+  downvoteComment,
   editComment,
   upvoteComment,
 } from "../../services/comment.service";
@@ -158,6 +159,18 @@ export const handleLikeComment = createAsyncThunk(
   }
 );
 
+export const handleDownvoteComment = createAsyncThunk(
+  "posts/handleDownvoteComment",
+  async ({ postId, commentId, token }, thunkApi) => {
+    try {
+      const response = await downvoteComment({ postId, commentId, token });
+      return response.data.posts;
+    } catch (err) {
+      thunkApi.rejectWithValue(err.response.data);
+    }
+  }
+);
+
 const initialState = {
   allPosts: [],
   userPosts: [],
@@ -297,6 +310,18 @@ const postSlice = createSlice({
       state.allPosts = action.payload;
     });
     builder.addCase(handleLikeComment.rejected, (state, action) => {
+      state.isLoading = false;
+      ToastMessage(action.payload, TOASTYPE.Error);
+    });
+
+    builder.addCase(handleDownvoteComment.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(handleDownvoteComment.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.allPosts = action.payload;
+    });
+    builder.addCase(handleDownvoteComment.rejected, (state, action) => {
       state.isLoading = false;
       ToastMessage(action.payload, TOASTYPE.Error);
     });

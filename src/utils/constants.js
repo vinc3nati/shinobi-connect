@@ -40,4 +40,10 @@ export const COMMENTSERVICE = {
   EDITCOMMENTS: "/api/comments/edit",
   DELETECOMMENTS: "/api/comments/delete",
   UPVOTECOMMENTS: "/api/comments/upvote",
+  DOWNVOTECOMMENTS: "/api/comments/downvote",
+};
+
+export const SORTCOMMENTS = {
+  MOST_RELEVANT: "Most Relevant",
+  LEAST_RELEVANT: "Least Relevant",
 };

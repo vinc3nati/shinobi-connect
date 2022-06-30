@@ -2,7 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoMdAddCircle } from "react-icons/io";
-import { FaSort, FaFire } from "react-icons/fa";
+import { FaFire } from "react-icons/fa";
+import { MdFiberNew } from "react-icons/md";
 import { Loader } from "../../components/Loader/Loader";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import { openPostModal } from "../PostModal";
@@ -12,13 +13,12 @@ import "./feed.css";
 import { SuggestedUser } from "../../components/SuggestedUser/SuggestedUser";
 import { SuggestedUserHorizontal } from "../../components/SuggestedUserHorizontal/SuggestedUserHorizontal";
 import { FeedCard } from "../../components/FeedCard/FeedCard";
-import { PostModal } from "../PostModal/PostModal";
 
 const LIMIT = 2;
 
 export const Feed = ({ title }) => {
   useDocumentTitle(title);
-  const { user, token } = useSelector((store) => store.auth);
+  const { user } = useSelector((store) => store.auth);
   const { allUsers } = useSelector((store) => store.users);
   const { allPosts, isLoading, isLoadingMoreData } = useSelector(
     (store) => store.posts
@@ -127,27 +127,27 @@ export const Feed = ({ title }) => {
               >
                 <div className="w-1/2 border-r-2 border-primary flex items-center justify-center">
                   <span
-                    className={`hover:opacity-70 cursor-pointer flex items-center ${
+                    className={`hover:opacity-70 cursor-pointer flex gap-2 items-center ${
                       subNav === "latest"
                         ? "text-secondary"
                         : "text-dark-txt-color-secondary"
                     }`}
                     onClick={() => setSubNav("latest")}
                   >
-                    <FaSort className="pr-2 text-xl" />
+                    <MdFiberNew className="text-xl" />
                     Latest
                   </span>
                 </div>
                 <div className="w-1/2 flex items-center justify-center">
                   <span
-                    className={`hover:opacity-70 cursor-pointer flex items-center ${
+                    className={`hover:opacity-70 cursor-pointer flex gap-2 items-center ${
                       subNav === "trending"
                         ? "text-secondary"
                         : "text-dark-txt-color-secondary"
                     }`}
                     onClick={() => setSubNav("trending")}
                   >
-                    <FaFire className="pr-2 text-xl" />
+                    <FaFire className="text-xl" />
                     Trending
                   </span>
                 </div>

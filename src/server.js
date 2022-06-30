@@ -33,6 +33,7 @@ import {
   editPostCommentHandler,
   getPostCommentsHandler,
   upvotePostCommentHandler,
+  downvotePostCommentHandler,
 } from "./backend/controllers/CommentController";
 
 export function makeServer({ environment = "development" } = {}) {
@@ -114,6 +115,10 @@ export function makeServer({ environment = "development" } = {}) {
       this.post(
         "/comments/upvote/:postId/:commentId",
         upvotePostCommentHandler.bind(this)
+      );
+      this.post(
+        "/comments/downvote/:postId/:commentId",
+        downvotePostCommentHandler.bind(this)
       );
     },
   });
